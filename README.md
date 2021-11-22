@@ -8,12 +8,6 @@ A simple formatter for OpenSCAD files, that utilizes clang-format.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
 * `openscad-formatter.clang-format.executable`: The path to the clang-format executable.
 * `openscad-formatter.clang-format.style`: The style parameter for clang-format
 
@@ -24,8 +18,9 @@ This extension contributes the following settings:
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
 Initial release
+
+### 1.0.1
+Update README
