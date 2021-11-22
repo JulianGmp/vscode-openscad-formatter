@@ -1,0 +1,60 @@
+{
+	"name": "openscad-formatter",
+	"displayName": "OpenSCAD Formatter",
+	"description": "Simple formatter for OpenSCAD files using clang-format.",
+	"author": {
+		"name": "Julian G",
+		"url": "https://github.com/JulianGmp",
+		"email": "juliangmp@pm.me"
+	},
+	"publisher": "JulianGmp",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^0.10.1"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onLanguage:scad"
+	],
+	"contributes": {
+		"configuration": {
+			"title": "OpenSCAD Formatter",
+			"properties": {
+				"openscad-formatter.clang-format.executable": {
+					"type": "string",
+					"default": "clang-format",
+					"description": "Path to the clang-format executable. Define this if `clang-format` isn't on PATH"
+				},
+				"openscad-formatter.clang-format.style": {
+					"type": "string",
+					"default": "{ BasedOnStyle: Microsoft, UseTab: ForIndentation, ColumnLimit: 120, StatementMacros: [rotate, translate] }",
+					"description": "The style parameter for clang-format. Run `clang-format --help` for more information."
+				}
+			}
+		}
+	},
+	"main": "./out/extension.js",
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.62.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.4",
+		"@types/node": "^12.11.7",
+		"eslint": "^7.19.0",
+		"@typescript-eslint/eslint-plugin": "^4.14.1",
+		"@typescript-eslint/parser": "^4.14.1",
+		"glob": "^7.1.6",
+		"mocha": "^8.2.1",
+		"typescript": "^4.1.3",
+		"vscode-test": "^1.5.0"
+	}
+}
