@@ -11,7 +11,7 @@
 		"url": "https://github.com/JulianGmp/vscode-openscad-formatter"
 	},
 	"publisher": "JulianGmp",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"engines": {
 		"vscode": "^1.62.0"
 	},
@@ -32,7 +32,7 @@
 				},
 				"openscad-formatter.clang-format.style": {
 					"type": "string",
-					"default": "{ BasedOnStyle: Microsoft, UseTab: ForIndentation, ColumnLimit: 120, StatementMacros: [rotate, translate] }",
+					"default": "{ BasedOnStyle: Microsoft, UseTab: ForIndentation, ColumnLimit: 120,StatementMacros: [rotate,translate]}",
 					"description": "The style parameter for clang-format. Run `clang-format --help` for more information."
 				}
 			}
