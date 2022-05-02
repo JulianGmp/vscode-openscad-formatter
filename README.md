@@ -11,8 +11,9 @@ A simple formatter for OpenSCAD files, that utilizes clang-format.
 * `openscad-formatter.clang-format.executable`: The path to the clang-format executable.
 * `openscad-formatter.clang-format.style`: The style parameter for clang-format
 
-## To-Do's and known issues
+## Known issues
 
+- Files with includes will be indented wrongly (see issue #1)
 - Partial formatting („Format Selection“ in the command palette) is not implemented.
 - Utilize the vscode settings for tabs (width and if they are replaced with spaces) when formatting.
 
