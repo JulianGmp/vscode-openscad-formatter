@@ -6,22 +6,28 @@ A simple formatter for OpenSCAD files, that utilizes clang-format.
 
 *Important: you will have to install clang-format yourself, it is not shipped with this extension.*
 
+*Note: this extension does not provide syntax highlighting or other language features for OpenSCAD files, please take a look at the [Antyos.openscad](https://marketplace.visualstudio.com/items?itemName=Antyos.openscad) extension instead.*
+
 ## Extension Settings
 
 * `openscad-formatter.clang-format.executable`: The path to the clang-format executable.
-* `openscad-formatter.clang-format.style`: The style parameter for clang-format
+* `openscad-formatter.clang-format.style`: The style parameters for clang-format*
+
+*please refer to the [documentation of clang-format](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) for the various options.
 
 ## Known issues
 
-- Files with includes will be indented wrongly (see issue #1)
 - Partial formatting („Format Selection“ in the command palette) is not implemented.
-- Utilize the vscode settings for tabs (width and if they are replaced with spaces) when formatting.
+- vscode's format settings for tab size or space replacement are currenlty ignored.
 
 ## Release Notes
 
-### 1.0.0
-
-Initial release
+### 1.1.0
+Fix #1: OpenSCAD files with includes are now formatted normally.
 
 ### 1.0.1
 Update README
+
+### 1.0.0
+Initial release
+
