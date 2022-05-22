@@ -2,6 +2,8 @@
 
 [![Visual Studio Marketplace Version](https://vsmarketplacebadge.apphb.com/version/JulianGmp.openscad-formatter.svg)](https://marketplace.visualstudio.com/items?itemName=JulianGmp.openscad-formatter)
 
+[Also available at Open VSX](https://open-vsx.org/extension/JulianGmp/openscad-formatter)
+
 A simple formatter for OpenSCAD files, that utilizes clang-format.
 
 *Important: you will have to install clang-format yourself, it is not shipped with this extension.*
