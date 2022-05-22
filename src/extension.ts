@@ -54,7 +54,7 @@ function open_scad_format
 			args.push('--assume-filename', document.uri.fsPath);
 		}
 
-		// Comment token for include statements that have been disabled for formatting
+		// Comment token for include and use statements that have been disabled for formatting
 		const commentToken = '// JulianGmp.openscad-formatter token';
 		const includePrefix = '#';
 
@@ -97,12 +97,13 @@ function open_scad_format
 			return;
 		}
 
-		// to filter out include lines we have to pass the file line by line,
+		// to filter out include and use lines we have to pass the file line by line,
 		// prepenend the includes with a comment line to find them later and use
 		// a '#' before the include so that clang-tidy doesn't mess with them.
 		for (let lineIndex = 0; lineIndex < document.lineCount; lineIndex++) {
 			let line = document.lineAt(lineIndex);
-			if (line.text.trimStart().startsWith('include')) {
+			let lineTrimmed = line.text.trimStart();
+			if (lineTrimmed.startsWith('include') || lineTrimmed.startsWith('use')) {
 				stdin.write(commentToken);
 				stdin.write(eolCharacter);
 				stdin.write(includePrefix + line.text);
