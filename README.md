@@ -22,6 +22,9 @@ A simple formatter for OpenSCAD files, that utilizes clang-format.
 
 ## Release Notes
 
+### 1.1.1
+Fix an issue where `use` statements would lead to bad formatting (see [discussion #1](https://github.com/JulianGmp/vscode-openscad-formatter/issues/1#issuecomment-1133753753)).
+
 ### 1.1.0
 Fix #1: OpenSCAD files with includes are now formatted normally.
 
