@@ -8,7 +8,7 @@ A simple formatter for OpenSCAD files, that utilizes clang-format.
 
 *Important: you will have to install clang-format yourself, it is not shipped with this extension.*
 
-*Note: this extension does not provide syntax highlighting or other language features for OpenSCAD files, please take a look at the [Antyos.openscad](https://marketplace.visualstudio.com/items?itemName=Antyos.openscad) extension instead.*
+*Note: this extension does not provide syntax highlighting or other language features for OpenSCAD files directly, instead it pulls [Antyos.openscad](https://marketplace.visualstudio.com/items?itemName=Antyos.openscad) as a dependency.*
 
 ## Extension Settings
 
@@ -23,6 +23,10 @@ A simple formatter for OpenSCAD files, that utilizes clang-format.
 - vscode's format settings for tab size or space replacement are currenlty ignored.
 
 ## Release Notes
+
+### 1.2.0
+Rework the way we avoid breaking `use` and `include` statements during formatting.
+This fixes the workaround for `use` statements (see [discussion #1](https://github.com/JulianGmp/vscode-openscad-formatter/issues/1#issuecomment-1133959813)).
 
 ### 1.1.1
 Fix an issue where `use` statements would lead to bad formatting (see [discussion #1](https://github.com/JulianGmp/vscode-openscad-formatter/issues/1#issuecomment-1133753753)).

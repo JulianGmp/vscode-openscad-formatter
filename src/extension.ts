@@ -55,8 +55,10 @@ function open_scad_format
 		}
 
 		// Comment token for include and use statements that have been disabled for formatting
-		const commentToken = '// JulianGmp.openscad-formatter token';
-		const includePrefix = '#';
+		const commentTokenBegin = '// JulianGmp.openscad-formatter begin'
+		const commentTokenEnd = '// JulianGmp.openscad-formatter end';
+		const clangFormatOff = '// clang-format off'
+		const clangFormatOn = '// clang-format on';
 
 		// this function is ran once clang-format finished
 		function format_process_callback(error: child.ExecException | null, stdout: string, stderr: string) {
@@ -70,13 +72,22 @@ function open_scad_format
 			// wont have any performance implications :)
 			let split = stdout.split(eolCharacter);
 			for (let i = 0; i < split.length; i++) {
-				if (split[i].startsWith(commentToken)) {
-					// remove the token line
-					split.splice(i, 1);
-					// i now points towards the next line, which has the include statement
-					// we just need to remove the '#' prefix from it and boom this ugly workaround is done.
-					assert(split[i].startsWith(`${includePrefix}include`));
-					split[i] = split[i].substring(1);
+				const trimmed = split[i].trim();
+				if (trimmed == commentTokenBegin) {
+					// i points at the begin token, so we check that the following lines match
+					// this ugly workaround's pattern
+					assert(split[i + 1] === clangFormatOff);
+					// [i + 2] points to the line that we excluded from formatting
+					assert(split[i + 3] === clangFormatOn);
+					assert(split[i + 4] === commentTokenEnd);
+
+					// remove the current line (begin token) and the clangFormatOff
+					split.splice(i, 2);
+					// i now points towards the excluded line
+					// remove the clangFormatOn and the ending token
+					split.splice(i + 1, 2);
+					// since i points at the excluded line and is increment in the next iteration,
+					// we skip over that line. This is fine cause there's no point in checking it
 				}
 			}
 
@@ -89,9 +100,9 @@ function open_scad_format
 		}
 
 		console.debug(`${EXTENSION_NAME}: running clang-format with args: [ ${args.join(' ')} ].`);
-		const format_process = child.execFile(command, args, format_process_callback);
-		const stdin = format_process.stdin;
-		if (stdin == null || !stdin.writable) {
+		const formatProcess = child.execFile(command, args, format_process_callback);
+		const clangFormatStdin = formatProcess.stdin;
+		if (clangFormatStdin == null || !clangFormatStdin.writable) {
 			vscode.window.showErrorMessage("Error when running clang-format process: stdin is not writable!");
 			resolve([]);
 			return;
@@ -104,18 +115,18 @@ function open_scad_format
 			let line = document.lineAt(lineIndex);
 			let lineTrimmed = line.text.trimStart();
 			if (lineTrimmed.startsWith('include') || lineTrimmed.startsWith('use')) {
-				stdin.write(commentToken);
-				stdin.write(eolCharacter);
-				stdin.write(includePrefix + line.text);
-				stdin.write(eolCharacter);
+				clangFormatStdin.write(commentTokenBegin + eolCharacter);
+				clangFormatStdin.write(clangFormatOff + eolCharacter);
+				clangFormatStdin.write(line.text + eolCharacter);
+				clangFormatStdin.write(clangFormatOn + eolCharacter);
+				clangFormatStdin.write(commentTokenEnd + eolCharacter);
 			} else {
-				stdin.write(line.text);
-				stdin.write(eolCharacter);
+				clangFormatStdin.write(line.text + eolCharacter);
 			}
 		}
-		stdin.end();
+		clangFormatStdin.end();
 		await new Promise((resolve, _) => {
-			format_process.on("close", resolve);
+			formatProcess.on("close", resolve);
 		});
 	});
 }

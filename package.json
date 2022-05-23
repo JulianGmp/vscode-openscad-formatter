@@ -11,7 +11,7 @@
 		"url": "https://github.com/JulianGmp/vscode-openscad-formatter"
 	},
 	"publisher": "JulianGmp",
-	"version": "1.1.1",
+	"version": "1.2.0",
 	"engines": {
 		"vscode": "^1.62.0"
 	},
