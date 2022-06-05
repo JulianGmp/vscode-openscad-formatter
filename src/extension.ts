@@ -59,6 +59,8 @@ function open_scad_format
 		const commentTokenEnd = '// JulianGmp.openscad-formatter end';
 		const clangFormatOff = '// clang-format off'
 		const clangFormatOn = '// clang-format on';
+		const multiLineCommentBegin ='/*';
+		const multiLineCommentEnd ='*/';
 
 		// this function is ran once clang-format finished
 		function format_process_callback(error: child.ExecException | null, stdout: string, stderr: string) {
@@ -77,15 +79,17 @@ function open_scad_format
 					// i points at the begin token, so we check that the following lines match
 					// this ugly workaround's pattern
 					assert(split[i + 1] === clangFormatOff);
-					// [i + 2] points to the line that we excluded from formatting
-					assert(split[i + 3] === clangFormatOn);
-					assert(split[i + 4] === commentTokenEnd);
+					assert(split[i + 2] === multiLineCommentBegin);
+					// [i + 3] points to the line that we excluded from formatting
+					assert(split[i + 4] === multiLineCommentEnd);
+					assert(split[i + 5] === clangFormatOn);
+					assert(split[i + 6] === commentTokenEnd);
 
 					// remove the current line (begin token) and the clangFormatOff
-					split.splice(i, 2);
+					split.splice(i, 3);
 					// i now points towards the excluded line
 					// remove the clangFormatOn and the ending token
-					split.splice(i + 1, 2);
+					split.splice(i + 1, 3);
 					// since i points at the excluded line and is increment in the next iteration,
 					// we skip over that line. This is fine cause there's no point in checking it
 				}
@@ -117,7 +121,9 @@ function open_scad_format
 			if (lineTrimmed.startsWith('include') || lineTrimmed.startsWith('use')) {
 				clangFormatStdin.write(commentTokenBegin + eolCharacter);
 				clangFormatStdin.write(clangFormatOff + eolCharacter);
+				clangFormatStdin.write(multiLineCommentBegin + eolCharacter);
 				clangFormatStdin.write(line.text + eolCharacter);
+				clangFormatStdin.write(multiLineCommentEnd + eolCharacter);
 				clangFormatStdin.write(clangFormatOn + eolCharacter);
 				clangFormatStdin.write(commentTokenEnd + eolCharacter);
 			} else {
